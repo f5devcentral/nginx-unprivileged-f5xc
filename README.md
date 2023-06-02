@@ -1,6 +1,6 @@
 # NGINX Plus images for F5XC vK8S
 
-Nginx Plus can be deployed easily in F5XC as PaaS in vK8S (or mK8S) in order to bring capablities like SAML or OIDC.
+Nginx Plus can be deployed easily in F5XC as PaaS in vK8S (or mK8S) in order to bring capablities like SAML or OIDC. But it must run in unprivileged mode (non-root)
 In this repo, we maintain N+ docker image for SAML SP and OIDC Relying Party.
 
 <img src=./f5xc-archi.png alt="Architecture" width=1000>
@@ -32,7 +32,7 @@ sequenceDiagram
 
 ## N+ as OIDC Relying Party
 
-Full doc here : ./OIDC/README.md
+Full doc here : [NGINX Plus](./OIDC/README.md)
 
 In this section, you can build your own N+ image in order to run N+ in vK8S as OIDC Relying Party
 The projecty is based on official and supported Nginx PLUS OIDC module : https://github.com/nginxinc/nginx-openid-connect

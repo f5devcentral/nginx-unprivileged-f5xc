@@ -18,3 +18,6 @@ sudo DOCKER_BUILDKIT=1 docker build  --no-cache --secret id=nginx-key,src=nginx-
 
 6. Push the image in your ``private`` repo
 
+You can install the supported NAP DOS Dashboard on your Elastic : https://github.com/f5devcentral/nap-dos-elk-dashboards
+
+<img src=./elastic.png alt="Architecture" width=1000>

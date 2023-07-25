@@ -1,11 +1,13 @@
 # NGINX Plus images for F5XC vK8S
 
-Nginx Plus can be deployed easily in F5XC as PaaS in vK8S (or mK8S) in order to bring capablities like SAML or OIDC. But it must run in unprivileged mode (non-root)
-In this repo, we maintain N+ docker image for SAML SP and OIDC Relying Party.
+Nginx Plus can be deployed easily in F5XC as PaaS in vK8S (or mK8S) in order to bring capablities like SAML/OIDC or Advanced L7 DDoS protection. But it must run in unprivileged mode (non-root)
+In this repo, we maintain N+ docker image for SAML SP, OIDC Relying Party and NAP DOS.
 
-<img src=./f5xc-archi.png alt="Architecture" width=1000>
+----
 
 ## N+ as SAML Service Provider
+
+<img src=./f5xc-archi.png alt="Architecture" width=1000>
 
 Full doc here : [NGINX Plus](./SAML/README.md)
 
@@ -30,7 +32,11 @@ sequenceDiagram
 ```
 `Figure 1. SAML SP-Initiated SSO with POST Bindings for AuthnRequest and Response`
 
+----
+
 ## N+ as OIDC Relying Party
+
+<img src=./f5xc-archi.png alt="Architecture" width=1000>
 
 Full doc here : [NGINX Plus](./OIDC/README.md)
 
@@ -42,3 +48,12 @@ The projecty is based on official and supported Nginx PLUS OIDC module : https:/
 ![OpenID Connect protocol diagram](https://www.nginx.com/wp-content/uploads/2018/04/dia-LC-2018-03-30-OpenID-Connect-authentication-code-flow-detailed-800x840-03.svg)
 
 `Figure 2. OpenID Connect authorization code flow protocol`
+
+----
+
+<img src=./F5XC-NAP-DOS.png alt="Architecture" width=1000>
+
+Full doc here : [NGINX Plus](./NAP-DOS/README.md)
+
+In this section, you can build your own N+ image in order to run N+ in vK8S as NAP DOS engine to protect against advanced L7 DDoS.
+

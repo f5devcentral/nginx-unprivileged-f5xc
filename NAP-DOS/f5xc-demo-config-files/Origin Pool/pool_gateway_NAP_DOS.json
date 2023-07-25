@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "name": "op-nap-dos-gw-dataplane-http-re",
+    "namespace": "demo-app-waap",
+    "labels": {
+      "owner": "m.dierick",
+      "project": "waap-nap-dos"
+    },
+    "annotations": {},
+    "disable": false
+  },
+  "spec": {
+    "origin_servers": [
+      {
+        "k8s_service": {
+          "service_name": "nginx-nap-dos-gw-re.demo-app-waap",
+          "site_locator": {
+            "virtual_site": {
+              "tenant": "ves-io",
+              "namespace": "shared",
+              "name": "ves-io-all-res",
+              "kind": "virtual_site"
+            }
+          },
+          "vk8s_networks": {}
+        },
+        "labels": {}
+      }
+    ],
+    "no_tls": {},
+    "port": 8080,
+    "same_as_endpoint_port": {},
+    "healthcheck": [],
+    "loadbalancer_algorithm": "LB_OVERRIDE",
+    "endpoint_selection": "LOCAL_PREFERRED"
+  }
+}

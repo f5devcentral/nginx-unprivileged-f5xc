@@ -1,0 +1,19 @@
+{
+    "metadata": {
+      "name": "ddos-app-protect-control-plane",
+      "namespace": "shared",
+      "labels": {},
+      "annotations": {},
+      "disable": false
+    },
+    "spec": {
+      "features": [
+        {
+          "type": "DDoS Detection"
+        }
+      ],
+      "business_logic_markup_setting": {
+        "disable": {}
+      }
+    }
+  }

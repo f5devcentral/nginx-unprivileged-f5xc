@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "name": "nap-dos-dashboard",
+    "namespace": "demo-app-waap",
+    "labels": {
+      "owner": "m.dierick",
+      "project": "waap-nap-dos",
+      "ves.io/app_type": "ddos-app-protect-control-plane"
+    },
+    "annotations": {},
+    "description": "NAP DOS Dashboard on Nginx in RE",
+    "disable": false
+  },
+  "spec": {
+    "domains": [
+      "nap-dos-dashboard.emea-ent.f5demos.com"
+    ],
+    "https_auto_cert": {
+      "http_redirect": true,
+      "add_hsts": false,
+      "port": 443,
+      "tls_config": {
+        "default_security": {}
+      },
+      "no_mtls": {},
+      "default_header": {},
+      "enable_path_normalize": {},
+      "non_default_loadbalancer": {},
+      "header_transformation_type": {
+        "default_header_transformation": {}
+      },
+      "connection_idle_timeout": 0
+    },
+    "downstream_tls_certificate_expiration_timestamps": [
+      {}
+    ],
+    "advertise_on_public_default_vip": {},
+    "default_route_pools": [],
+    "routes": [
+      {
+        "redirect_route": {
+          "http_method": "GET",
+          "path": {
+            "path": "/"
+          },
+          "headers": [],
+          "route_redirect": {
+            "proto_redirect": "https",
+            "path_redirect": "/dashboard-dos.html",
+            "response_code": 301,
+            "retain_all_params": {},
+            "port_redirect": 0
+          }
+        }
+      },
+      {
+        "simple_route": {
+          "http_method": "ANY",
+          "path": {
+            "prefix": "/"
+          },
+          "headers": [],
+          "origin_pools": [
+            {
+              "pool": {
+                "tenant": "f5-emea-ent-bceuutam",
+                "namespace": "demo-app-waap",
+                "name": "op-nap-dos-gw-managementplane-re",
+                "kind": "origin_pool"
+              },
+              "weight": 1,
+              "priority": 1,
+              "endpoint_subsets": {}
+            }
+          ],
+          "disable_host_rewrite": {}
+        }
+      }
+    ],
+    "disable_waf": {},
+    "add_location": false,
+    "no_challenge": {},
+    "user_id_client_ip": {},
+    "disable_rate_limit": {},
+    "waf_exclusion_rules": [],
+    "data_guard_rules": [],
+    "blocked_clients": [],
+    "trusted_clients": [],
+    "ddos_mitigation_rules": [],
+    "service_policies_from_namespace": {},
+    "cookie_stickiness": {
+      "name": "nap-dos-nginx",
+      "ttl": 0,
+      "ignore_samesite": {},
+      "ignore_secure": {},
+      "ignore_httponly": {}
+    },
+    "disable_trust_client_ip_headers": {},
+    "disable_ddos_detection": {},
+    "disable_malicious_user_detection": {},
+    "disable_api_discovery": {},
+    "disable_bot_defense": {},
+    "disable_api_definition": {},
+    "graphql_rules": [],
+    "protected_cookies": [],
+    "dns_info": [],
+    "state": "VIRTUAL_HOST_READY",
+    "auto_cert_info": {
+      "auto_cert_state": "CertificateValid",
+      "auto_cert_expiry": "2023-10-19T11:50:18Z",
+      "auto_cert_subject": "CN=nap-dos-dashboard.emea-ent.f5demos.com",
+      "auto_cert_issuer": "CN=R3,O=Let's Encrypt,C=US",
+      "dns_records": []
+    },
+    "internet_vip_info": []
+  }
+}

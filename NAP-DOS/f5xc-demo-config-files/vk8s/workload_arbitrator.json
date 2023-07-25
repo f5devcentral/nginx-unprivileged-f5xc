@@ -1,0 +1,69 @@
+{
+  "metadata": {
+    "name": "nginx-nap-dos-arbitrator-re",
+    "namespace": "demo-app-waap",
+    "labels": {
+      "owner": "m.dierick",
+      "project": "waap-nap-dos",
+      "ves.io/app": "ddos-app-protect",
+      "ves.io/app_type": "ddos-app-protect-control-plane"
+    },
+    "annotations": {
+      "ves.io/app": "nap-dos",
+      "ves.io/workload-flavor": "ves-io-large"
+    },
+    "description": "NGINX NAP DoS running in RE vk8s",
+    "disable": false
+  },
+  "spec": {
+    "service": {
+      "num_replicas": 1,
+      "containers": [
+        {
+          "name": "nap-dos-arbitrator-re",
+          "image": {
+            "name": "docker-registry.nginx.com/nap-dos/app_protect_dos_arb",
+            "public": {},
+            "pull_policy": "IMAGE_PULL_POLICY_IF_NOT_PRESENT"
+          },
+          "init_container": false,
+          "flavor": "CONTAINER_FLAVOR_TYPE_TINY",
+          "command": [],
+          "args": []
+        }
+      ],
+      "volumes": [],
+      "configuration": {
+        "parameters": []
+      },
+      "deploy_options": {
+        "deploy_re_sites": {
+          "site": [
+            {
+              "tenant": "ves-io",
+              "namespace": "system",
+              "name": "pa2-par",
+              "kind": "site"
+            }
+          ]
+        }
+      },
+      "advertise_options": {
+        "advertise_in_cluster": {
+          "multi_ports": {
+            "ports": [
+              {
+                "name": "http-dataplane",
+                "info": {
+                  "port": 3000,
+                  "protocol": "PROTOCOL_HTTP",
+                  "same_as_port": {}
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

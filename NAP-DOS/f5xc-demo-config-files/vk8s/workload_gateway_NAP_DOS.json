@@ -1,0 +1,188 @@
+{
+  "metadata": {
+    "name": "nginx-nap-dos-gw-re",
+    "namespace": "demo-app-waap",
+    "labels": {
+      "owner": "m.dierick",
+      "project": "waap-nap-dos",
+      "ves.io/app": "ddos-app-protect",
+      "ves.io/app_type": "ddos-app-protect-data-plane"
+    },
+    "annotations": {
+      "ves.io/app": "nap-dos",
+      "ves.io/workload-flavor": "ves-io-large"
+    },
+    "description": "NGINX NAP DoS running in RE vk8s",
+    "disable": false
+  },
+  "spec": {
+    "service": {
+      "num_replicas": 1,
+      "containers": [
+        {
+          "name": "nap-dos-gw-re",
+          "image": {
+            "name": "registryemeasa.azurecr.io/nginx-nap-dos:29.1.0",
+            "container_registry": {
+              "tenant": "f5-emea-ent-bceuutam",
+              "namespace": "demo-app-waap",
+              "name": "registryemeasa",
+              "kind": "container_registry"
+            },
+            "pull_policy": "IMAGE_PULL_POLICY_IF_NOT_PRESENT"
+          },
+          "init_container": false,
+          "flavor": "CONTAINER_FLAVOR_TYPE_LARGE",
+          "command": [],
+          "args": []
+        }
+      ],
+      "volumes": [
+        {
+          "name": "nap-dos-state",
+          "empty_dir": {
+            "size_limit": 0.1,
+            "mount": {
+              "mode": "VOLUME_MOUNT_READ_WRITE",
+              "mount_path": "/var/run/adm"
+            }
+          }
+        },
+        {
+          "name": "nap-dos-tmp",
+          "empty_dir": {
+            "size_limit": 0.01,
+            "mount": {
+              "mode": "VOLUME_MOUNT_READ_WRITE",
+              "mount_path": "/tmp/cores"
+            }
+          }
+        },
+        {
+          "name": "nap-dos-log",
+          "empty_dir": {
+            "size_limit": 0.01,
+            "mount": {
+              "mode": "VOLUME_MOUNT_READ_WRITE",
+              "mount_path": "/var/log/adm"
+            }
+          }
+        },
+        {
+          "name": "nginx-zones",
+          "empty_dir": {
+            "size_limit": 0.01,
+            "mount": {
+              "mode": "VOLUME_MOUNT_READ_WRITE",
+              "mount_path": "/nginx-zones"
+            }
+          }
+        },
+        {
+          "name": "nginx-tmp",
+          "empty_dir": {
+            "size_limit": 0.01,
+            "mount": {
+              "mode": "VOLUME_MOUNT_READ_WRITE",
+              "mount_path": "/nginx-tmp"
+            }
+          }
+        },
+        {
+          "name": "nginx-cache",
+          "empty_dir": {
+            "size_limit": 0.01,
+            "mount": {
+              "mode": "VOLUME_MOUNT_READ_WRITE",
+              "mount_path": "/nginx-cache"
+            }
+          }
+        }
+      ],
+      "configuration": {
+        "parameters": [
+          {
+            "file": {
+              "name": "nginx.conf",
+              "data": "string:///bG9hZF9tb2R1bGUgL3Vzci9saWIvbmdpbngvbW9kdWxlcy9uZ3hfaHR0cF9hcHBfcHJvdGVjdF9kb3NfbW9kdWxlLnNvOwoKd29ya2VyX3Byb2Nlc3NlcyAgYXV0bzsKZXJyb3JfbG9nIC9uZ2lueC92YXIvbG9nL25naW54L2Vycm9yLmxvZyBkZWJ1ZzsKcGlkIC9uZ2lueC10bXAvbmdpbngucGlkOwoKZXZlbnRzIHsKICAgIHdvcmtlcl9jb25uZWN0aW9ucyA0MDk2Owp9CgpodHRwIHsKICAgIHNjZ2lfdGVtcF9wYXRoIC9uZ2lueC1jYWNoZS9zY2dpX3RlbXA7CiAgICB1d3NnaV90ZW1wX3BhdGggL25naW54LWNhY2hlL3V3c2dpX3RlbXA7CiAgICBmYXN0Y2dpX3RlbXBfcGF0aCAvbmdpbngtY2FjaGUvZmFzdGNnaV90ZW1wOwogICAgcHJveHlfdGVtcF9wYXRoIC9uZ2lueC1jYWNoZS9wcm94eV90ZW1wOwogICAgY2xpZW50X2JvZHlfdGVtcF9wYXRoIC9uZ2lueC1jYWNoZS9jbGllbnRfdGVtcDsKICAgIGRlZmF1bHRfdHlwZSAgYXBwbGljYXRpb24vb2N0ZXQtc3RyZWFtOwoKICAgIGNsaWVudF9tYXhfYm9keV9zaXplIDEwMDBNOwogICAgbG9nX2Zvcm1hdCAgbWFpbiAgJyRyZW1vdGVfYWRkciAtICRyZW1vdGVfdXNlciBbJHRpbWVfbG9jYWxdICIkcmVxdWVzdCIgJwogICAgICAgICAgICAgICAgICAgICAgJyRzdGF0dXMgJGJvZHlfYnl0ZXNfc2VudCAiJGh0dHBfcmVmZXJlciIgJwogICAgICAgICAgICAgICAgICAgICAgJyIkaHR0cF91c2VyX2FnZW50IiAiJGh0dHBfeF9mb3J3YXJkZWRfZm9yIic7CiAgICBhY2Nlc3NfbG9nICAvbmdpbngvdmFyL2xvZy9uZ2lueC9hY2Nlc3MubG9nICBtYWluOwogICAgcmVzb2x2ZXIgMTAwLjEyNy4xOTIuMTA7ICMgRjUgWEMgdks4UyBETlMgcmVzb2x2ZXIuIFVzZWQgZm9yIEROUyBsb29rdXAgb2YgJGhvc3Q7CiAgICBwcm94eV9zZXRfaGVhZGVyIEhvc3QgJGhvc3Q7CgogICAgIyBOQVAtRE9TCiAgICBsb2dfZm9ybWF0IGxvZ19kb3MgJywgdnNfbmFtZV9hbD0kYXBwX3Byb3RlY3RfZG9zX3ZzX25hbWUsIGlwPSRodHRwX3hfZm9yd2FyZGVkX2ZvciwgdGxzX2ZwPSRhcHBfcHJvdGVjdF9kb3NfdGxzX2ZwLCBvdXRjb21lPSRhcHBfcHJvdGVjdF9kb3Nfb3V0Y29tZSwgcmVhc29uPSRhcHBfcHJvdGVjdF9kb3Nfb3V0Y29tZV9yZWFzb24sIGlwX3Rscz0kaHR0cF94X2ZvcndhcmRlZF9mb3I6JGFwcF9wcm90ZWN0X2Rvc190bHNfZnAsICc7CiAgICBhcHBfcHJvdGVjdF9kb3Nfc2VjdXJpdHlfbG9nX2VuYWJsZSBvbjsKICAgIGFwcF9wcm90ZWN0X2Rvc19zZWN1cml0eV9sb2cgIi9uZ2lueC9ldGMvbmdpbngvbG9nLXByb2ZpbGVzL2dlbmVyaWMtbG9nLmpzb24iIHN5c2xvZzpzZXJ2ZXI9NDAuMTEzLjEwNC4xMzA6NTI2MTsKICAgIGFwcF9wcm90ZWN0X2Rvc19hcmJfZnFkbiBuYXAtZG9zLWFyYml0cmF0b3ItcmU7CiAgICBhcHBfcHJvdGVjdF9kb3NfcmVhZGluZXNzIG9uIHVyaTovcmVhZGluZXNzIHBvcnQ6ODA5MDsKICAgIGFwcF9wcm90ZWN0X2Rvc19saXZlbmVzcyBvbiB1cmk6L2xpdmVuZXNzIHBvcnQ6ODA5MDsKCiAgICAjIFRydXN0IFhGRgogICAgc2V0X3JlYWxfaXBfZnJvbSAgMTAwLjAuMC4wLzg7CiAgICByZWFsX2lwX2hlYWRlciAgICBYLUZvcndhcmRlZC1Gb3I7CiAgICByZWFsX2lwX3JlY3Vyc2l2ZSBvbjsKCiAgICBzZXJ2ZXIgewogICAgICAgIHNlcnZlcl9uYW1lIHNlbnRlbmNlLW5hcC1kb3MuZW1lYS1lbnQuZjVkZW1vcy5jb207CiAgICAgICAgbGlzdGVuIDgwODA7CgogICAgICAgIHNldCAkbG9nZ2FibGUgJzEnOwogICAgICAgIGFjY2Vzc19sb2cgc3lzbG9nOnNlcnZlcj00MC4xMTMuMTA0LjEzMDo1MjYxIGxvZ19kb3MgaWY9JGxvZ2dhYmxlOwoKICAgICAgICBsb2NhdGlvbiAvIHsKICAgICAgICAgICAgYXBwX3Byb3RlY3RfZG9zX2VuYWJsZSBvbjsKICAgICAgICAgICAgYXBwX3Byb3RlY3RfZG9zX3BvbGljeV9maWxlICIvbmdpbngvZXRjL25naW54L3BvbGljaWVzL2dlbmVyaWMtcG9saWN5Lmpzb24iOwogICAgICAgICAgICBhcHBfcHJvdGVjdF9kb3NfbmFtZSAidnMtc2VudGVuY2UtYXp1cmUiOwogICAgICAgICAgICBhcHBfcHJvdGVjdF9kb3NfbW9uaXRvciB1cmk9aHR0cDovL3NlbnRlbmNlLmVtZWEuZjVzZS5jb206ODA4MC87CiAgICAgICAgICAgIHByb3h5X3NldF9oZWFkZXIgSG9zdCBzZW50ZW5jZS5lbWVhLmY1c2UuY29tOwogICAgICAgICAgICBwcm94eV9wYXNzIGh0dHA6Ly9zZW50ZW5jZS5lbWVhLmY1c2UuY29tOwogICAgICAgIH0KICAgIH0KICAgIHNlcnZlciB7CiAgICAgICAgbGlzdGVuIDgwOTA7CiAgICAgICAgbG9jYXRpb24gL2FwaSB7CiAgICAgICAgICAgIGFwcF9wcm90ZWN0X2Rvc19hcGk7CiAgICAgICAgfQogICAgICAgIGxvY2F0aW9uID0gL2Rhc2hib2FyZC1kb3MuaHRtbCB7CiAgICAgICAgICAgIHJvb3QgICAvbmdpbngvdXNyL3NoYXJlL25naW54L2h0bWw7CiAgICAgICAgfQogICAgfQp9",
+              "volume_name": "nginx-2",
+              "mount": {
+                "mode": "VOLUME_MOUNT_READ_ONLY",
+                "mount_path": "/nginx/etc/nginx/nginx.conf",
+                "sub_path": "nginx.conf"
+              }
+            }
+          },
+          {
+            "file": {
+              "name": "generic-policy.json",
+              "data": "string:///ewogICAgIm1pdGlnYXRpb25fbW9kZSI6ICJzdGFuZGFyZCIsCiAgICAic2lnbmF0dXJlcyI6ICJvbiIsCiAgICAiYmFkX2FjdG9ycyI6ICJvbiIsCiAgICAiYXV0b21hdGlvbl90b29sc19kZXRlY3Rpb24iOiAib24iLAogICAgInRsc19maW5nZXJwcmludCIgOiAib2ZmIgp9",
+              "volume_name": "generic-policy-2",
+              "mount": {
+                "mode": "VOLUME_MOUNT_READ_ONLY",
+                "mount_path": "/nginx/etc/nginx/policies/generic-policy.json",
+                "sub_path": "generic-policy.json"
+              }
+            }
+          },
+          {
+            "file": {
+              "name": "generic-log.json",
+              "data": "string:///ewogICAgImZpbHRlciI6IHsKICAgICAgICAidHJhZmZpYy1taXRpZ2F0aW9uLXN0YXRzIjogImFsbCIsCiAgICAgICAgImJhZC1hY3RvcnMiOiAidG9wIDEwIiwKICAgICAgICAiYXR0YWNrLXNpZ25hdHVyZXMiOiAidG9wIDEwIgogICAgfQp9",
+              "volume_name": "generic-log",
+              "mount": {
+                "mode": "VOLUME_MOUNT_READ_ONLY",
+                "mount_path": "/nginx/etc/nginx/log-profiles/generic-log.json",
+                "sub_path": "generic-log.json"
+              }
+            }
+          }
+        ]
+      },
+      "deploy_options": {
+        "deploy_re_virtual_sites": {
+          "virtual_site": [
+            {
+              "tenant": "f5-emea-ent-bceuutam",
+              "namespace": "demo-app-waap",
+              "name": "paris-only",
+              "kind": "virtual_site"
+            }
+          ]
+        }
+      },
+      "advertise_options": {
+        "advertise_in_cluster": {
+          "multi_ports": {
+            "ports": [
+              {
+                "name": "http-dataplane",
+                "info": {
+                  "port": 8080,
+                  "protocol": "PROTOCOL_HTTP",
+                  "same_as_port": {}
+                }
+              },
+              {
+                "name": "http-monitor",
+                "info": {
+                  "port": 8090,
+                  "protocol": "PROTOCOL_HTTP",
+                  "same_as_port": {}
+                }
+              },
+              {
+                "name": "https-dataplane",
+                "info": {
+                  "port": 4443,
+                  "protocol": "PROTOCOL_HTTP",
+                  "same_as_port": {}
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

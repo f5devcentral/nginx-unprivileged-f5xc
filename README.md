@@ -51,6 +51,8 @@ The projecty is based on official and supported Nginx PLUS OIDC module : https:/
 
 ----
 
+## N+ as NAP DOS protection
+
 <img src=./F5XC-NAP-DOS.png alt="Architecture" width=1000>
 
 Full doc here : [NGINX Plus](./NAP-DOS/README.md)

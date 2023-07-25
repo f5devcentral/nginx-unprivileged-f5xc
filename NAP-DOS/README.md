@@ -13,7 +13,7 @@
 5. Run the Docker build command
 
 ```bash
-sudo DOCKER_BUILDKIT=1 docker build  --no-cache --secret id=nginx-key,src=nginx-repo.key --secret id=nginx-crt,src=nginx-repo.crt -t nginx-saml .
+sudo DOCKER_BUILDKIT=1 docker build  --no-cache --secret id=nginx-key,src=nginx-repo.key --secret id=nginx-crt,src=nginx-repo.crt -t nap-dos .
 ```
 
 6. Push the image in your ``private`` repo
